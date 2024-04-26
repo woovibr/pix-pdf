@@ -51,6 +51,6 @@ export const inputSchema = z.object({
 		state: z.string(),
 		postalCode: z.string(),
 	}),
-	isServer: z.boolean().optional(),
+	debug: z.boolean().optional().default(false),
 });
 export type BoletoProps = z.infer<typeof inputSchema>;

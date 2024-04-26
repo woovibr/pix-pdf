@@ -1,7 +1,8 @@
-import {createPdf} from "../factories";
 import {BoletoComponent} from "./BoletoComponent";
-import {inputSchema} from "./InputSchema";
-import {defaultArgs} from "./DefaultArgs";
+import {createPdf} from "../../factories";
+import {inputSchema} from "./input-schema";
+import {defaultArgs} from "./default-args";
+
 
 export const Boleto = createPdf({
   component: BoletoComponent,

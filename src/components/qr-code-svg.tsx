@@ -10,11 +10,11 @@ const createQRCodeSVG = (url: string) => {
   return <Comp value={url} size={128} />;
 };
 
-export const QRCode = ({ qrcode }: { qrcode: string }) => {
+export const QRCode = ({ qrcode, debug }: { qrcode: string, debug: boolean }) => {
   const paths = parseHtmlSvgToPdf(renderToString(createQRCodeSVG(qrcode)));
 
   return (
-    <Svg height="200" width="200" viewBox="0 0 100 100">
+    <Svg height="100" width="100" viewBox="0 0 50 50" debug={debug}>
       {paths.map((path, index) => (
         <Path key={path} fill={index === 0 ? "white" : "black"} d={path} />
       ))}

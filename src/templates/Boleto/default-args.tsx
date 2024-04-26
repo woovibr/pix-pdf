@@ -1,6 +1,7 @@
-import type { BoletoProps } from "./InputSchema";
+import type { BoletoProps } from "./input-schema";
 
 export const defaultArgs: BoletoProps = {
+  debug: false,
   barcodeData: "23790.34404 20000.301430 99001.327503 9 97120000009332",
   scannerBarcode: "23790.34404 20000.301430 99001.327503 9 97120000009332",
   paymentPlace:
@@ -55,5 +56,4 @@ export const defaultArgs: BoletoProps = {
     state: "SC",
     postalCode: "89254-375",
   },
-  isServer: true,
 };

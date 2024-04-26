@@ -2,9 +2,9 @@ import React from "react";
 import type { StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import { PDFViewer } from "@react-pdf/renderer";
-import type { BoletoProps } from "./InputSchema";
-import { defaultArgs } from "./DefaultArgs";
 import { Boleto } from "./Boleto";
+import type {BoletoProps} from "./input-schema";
+import {defaultArgs} from "./default-args";
 
 const Setup = (args: BoletoProps) => {
   const Doc = Boleto.component;

@@ -1,4 +1,3 @@
-import { boletoBarcodeSvg } from "../components/barcode";
 import {
   Document,
   Link,
@@ -7,10 +6,11 @@ import {
   Text,
   View,
 } from "@react-pdf/renderer";
-import { WooviLogo } from "../components/woovi-logo";
-import type { BoletoProps } from "./InputSchema";
-import { QRCode } from "../components/qr-code-svg";
 import React from "react";
+import {WooviLogo} from "../../components/woovi-logo";
+import type {BoletoProps} from "./input-schema";
+import {boletoBarcodeSvg} from "../../components/barcode";
+import {QRCode} from "../../components/qr-code-svg";
 
 const formatDate = (date: Date): string => {
   return new Intl.DateTimeFormat("pt-BR").format(date);
@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   barCode: {
+    marginTop: 10,
     maxWidth: 344,
-    marginTop: 20,
   },
   leftColumn: {
     maxWidth: 399,
@@ -81,7 +81,7 @@ export const BoletoComponent = (
     >
       <Page style={styles.page}>
         <View
-          style={{
+                    style={{
             flexDirection: "row",
             alignItems: "baseline",
             gap: 6,
@@ -89,6 +89,7 @@ export const BoletoComponent = (
         >
           <Link
             href={"https://woovi.com"}
+            debug={args.debug}
             style={{
               width: 100,
             }}
@@ -170,11 +171,11 @@ export const BoletoComponent = (
           </View>
         </View>
 
-        <View style={{ marginTop: "10px" }}>
-           <QRCode qrcode={args.qrCodeData} />
+        <View style={{ marginTop: "10px" }} debug={args.debug}>
+           <QRCode qrcode={args.qrCodeData} debug={args.debug} />
         </View>
 
-        <View style={styles.barCode}>{SvgBarcode}</View>
+        <View debug={args.debug} style={styles.barCode}>{SvgBarcode}</View>
       </Page>
     </Document>
   );
