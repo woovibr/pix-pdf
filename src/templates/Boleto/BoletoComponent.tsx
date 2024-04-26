@@ -68,8 +68,6 @@ export const BoletoComponent = (
   args: BoletoProps) => {
   const SvgBarcode = boletoBarcodeSvg(args.barcodeData);
   const displayExpirationDay = formatDate(args.expirationDay);
-  const displayDocumentDate = formatDate(args.documentDate);
-  const displayProcessingDate = formatDate(args.processingDate);
 
   return (
     <Document
@@ -150,23 +148,6 @@ export const BoletoComponent = (
           </View>
           <View style={styles.rightColumn}>
             <Text style={styles.labelSmall}>(=) Valor Documento</Text>
-            <Text style={styles.valueSmall}>{args.formattedValue}</Text>
-          </View>
-        </View>
-
-        <View
-          style={{
-            border: "1px solid black",
-            borderTop: "none",
-            flexDirection: "row",
-            alignItems: "baseline",
-          }}
-        >
-          <View style={{ ...styles.leftColumn }}>
-            <Text style={styles.labelSmall}>Instruções</Text>
-          </View>
-          <View style={styles.rightColumn}>
-            <Text style={styles.labelSmall}>(+) Impostos</Text>
             <Text style={styles.valueSmall}>{args.formattedValue}</Text>
           </View>
         </View>
