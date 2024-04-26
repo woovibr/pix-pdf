@@ -10,6 +10,7 @@
     "build": "tsup src/index.ts --minify --dts --out-dir dist",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "type-check": "tsc --noEmit",
     "test:pdf-approve": "pdf-visual-diff approve"
   },
   "keywords": [],
