@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   page: {
-    fontFamily: "Inter",
+    // fontFamily: "Inter", TODO: Need fix import font on build for storybook and pdf generation
     padding: "32 20 52 20",
   },
   label: {
@@ -67,7 +67,6 @@ const mapLogo = {
 export const BoletoComponent = (args: BoletoProps) => {
   const SvgBarcode = boletoBarcodeSvg(args.barcodeData);
   const displayExpirationDay = formatDate(args.expirationDay);
-
 
   return (
     <Document
@@ -115,22 +114,22 @@ export const BoletoComponent = (args: BoletoProps) => {
             {args.scannerBarcode}
           </Text>
         </View>
-          <View
-            style={{
-              border: "1px solid black",
-              flexDirection: "row",
-              alignItems: "baseline",
-            }}
-          >
-            <View style={{ ...styles.leftColumn }}>
-              <Text style={styles.labelSmall}>Local de pagamento</Text>
-              <Text style={styles.value}>{args.paymentPlace}</Text>
-            </View>
-            <View style={styles.rightColumn}>
-              <Text style={styles.labelSmall}>Vencimento</Text>
-              <Text style={styles.valueSmall}>{displayExpirationDay}</Text>
-            </View>
+        <View
+          style={{
+            border: "1px solid black",
+            flexDirection: "row",
+            alignItems: "baseline",
+          }}
+        >
+          <View style={{ ...styles.leftColumn }}>
+            <Text style={styles.labelSmall}>Local de pagamento</Text>
+            <Text style={styles.value}>{args.paymentPlace}</Text>
           </View>
+          <View style={styles.rightColumn}>
+            <Text style={styles.labelSmall}>Vencimento</Text>
+            <Text style={styles.valueSmall}>{displayExpirationDay}</Text>
+          </View>
+        </View>
 
         <View
           style={{
