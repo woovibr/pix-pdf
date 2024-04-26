@@ -1,8 +1,6 @@
 import { Font } from "@react-pdf/renderer";
 
-const __dirname = "src/";
-
-export const registerFonts = () => {
+export const registerFonts = (__dirname = "src/") => {
   const baseDirectory = `${__dirname}fonts/Inter`;
   Font.register({
     family: "Inter",
