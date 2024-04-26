@@ -1,19 +1,16 @@
-import  {
+import {
   type DocumentProps,
-  Font,
   renderToFile,
   renderToStream,
   renderToString,
 } from "@react-pdf/renderer";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import {createContext, createElement, type FunctionComponent} from "react";
-import type { SomeZodObject, z } from "zod";
+
 // biome-ignore lint/style/useImportType: <explanation>
 import * as React from "react";
+import { createContext, createElement, type FunctionComponent } from "react";
+import type { SomeZodObject, z } from "zod";
+import { registerFonts } from "../utils/registerFonts";
 
-// @ts-ignore
-const __dirname = fileURLToPath(new URL(".", import.meta.url));
 export type TemplateSchema = SomeZodObject;
 export type TemplateData<T extends TemplateSchema> = z.infer<T>;
 
@@ -37,43 +34,10 @@ export type Template<T extends TemplateSchema> = {
   stories: Record<string, Story<TemplateData<T>>>;
 };
 
+registerFonts();
+
 // biome-ignore lint/complexity/noBannedTypes: <explanation>
 const TemplateContext = createContext<{}>({});
-
-const registerFonts = () => {
-  const baseDirectory = path.resolve(__dirname, "..", "fonts", "Inter");
-  Font.register({
-    family: "Inter",
-    fonts: [
-      {
-        src: path.resolve(baseDirectory, "Inter-Regular.ttf"),
-      },
-      {
-        fontStyle: "italic",
-        src: path.resolve(baseDirectory, "Inter-Italic.ttf"),
-      },
-      {
-        fontStyle: "italic",
-        fontWeight: 600,
-        src: path.resolve(baseDirectory, "Inter-BoldItalic.ttf"),
-      },
-      {
-        fontWeight: 700,
-        src: path.resolve(baseDirectory, "Inter-Bold.ttf"),
-      },
-      {
-        fontWeight: 500,
-        src: path.resolve(baseDirectory, "Inter-Medium.ttf"),
-      },
-      {
-        fontWeight: 600,
-        src: path.resolve(baseDirectory, "Inter-SemiBold.ttf"),
-      },
-    ],
-  });
-};
-
-registerFonts();
 
 const getReactElement = async <T extends TemplateSchema>(
   template: TemplateInput<T>,
@@ -128,7 +92,7 @@ export const createPdf = <T extends TemplateSchema>(
       const element = await getReactElement(template, input);
 
       return await renderToString(
-          // @ts-expect-error - TODO needs to be fixed
+        // @ts-expect-error - TODO needs to be fixed
         createElement(
           TemplateContext.Provider,
           {
