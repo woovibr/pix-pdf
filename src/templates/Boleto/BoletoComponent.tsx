@@ -7,10 +7,10 @@ import {
   View,
 } from "@react-pdf/renderer";
 import React from "react";
-import {WooviLogo} from "../../components/woovi-logo";
-import type {BoletoProps} from "./input-schema";
-import {boletoBarcodeSvg} from "../../components/barcode";
-import {QRCode} from "../../components/qr-code-svg";
+import { WooviLogo } from "../../components/woovi-logo";
+import type { BoletoProps } from "./input-schema";
+import { boletoBarcodeSvg } from "../../components/barcode";
+import { QRCode } from "../../components/qr-code-svg";
 
 const formatDate = (date: Date): string => {
   return new Intl.DateTimeFormat("pt-BR").format(date);
@@ -64,10 +64,10 @@ const styles = StyleSheet.create({
 const mapLogo = {
   Woovi: <WooviLogo />,
 };
-export const BoletoComponent = (
-  args: BoletoProps) => {
+export const BoletoComponent = (args: BoletoProps) => {
   const SvgBarcode = boletoBarcodeSvg(args.barcodeData);
   const displayExpirationDay = formatDate(args.expirationDay);
+
 
   return (
     <Document
@@ -79,7 +79,7 @@ export const BoletoComponent = (
     >
       <Page style={styles.page}>
         <View
-                    style={{
+          style={{
             flexDirection: "row",
             alignItems: "baseline",
             gap: 6,
@@ -115,23 +115,22 @@ export const BoletoComponent = (
             {args.scannerBarcode}
           </Text>
         </View>
-
-        <View
-          style={{
-            border: "1px solid black",
-            flexDirection: "row",
-            alignItems: "baseline",
-          }}
-        >
-          <View style={{ ...styles.leftColumn }}>
-            <Text style={styles.labelSmall}>Local de pagamento</Text>
-            <Text style={styles.value}>{args.paymentPlace}</Text>
+          <View
+            style={{
+              border: "1px solid black",
+              flexDirection: "row",
+              alignItems: "baseline",
+            }}
+          >
+            <View style={{ ...styles.leftColumn }}>
+              <Text style={styles.labelSmall}>Local de pagamento</Text>
+              <Text style={styles.value}>{args.paymentPlace}</Text>
+            </View>
+            <View style={styles.rightColumn}>
+              <Text style={styles.labelSmall}>Vencimento</Text>
+              <Text style={styles.valueSmall}>{displayExpirationDay}</Text>
+            </View>
           </View>
-          <View style={styles.rightColumn}>
-            <Text style={styles.labelSmall}>Vencimento</Text>
-            <Text style={styles.valueSmall}>{displayExpirationDay}</Text>
-          </View>
-        </View>
 
         <View
           style={{
@@ -153,10 +152,12 @@ export const BoletoComponent = (
         </View>
 
         <View style={{ marginTop: "10px" }} debug={args.debug}>
-           <QRCode qrcode={args.qrCodeData} debug={args.debug} />
+          <QRCode qrcode={args.qrCodeData} debug={args.debug} />
         </View>
 
-        <View debug={args.debug} style={styles.barCode}>{SvgBarcode}</View>
+        <View debug={args.debug} style={styles.barCode}>
+          {SvgBarcode}
+        </View>
       </Page>
     </Document>
   );
