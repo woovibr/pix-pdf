@@ -1,5 +1,6 @@
 import React from "react";
 import { Rect, Svg } from "@react-pdf/renderer";
+import { z } from "zod";
 
 interface SVGProps {
   x: number;
@@ -47,9 +48,10 @@ const WEIGHTS = [
  * // Returns "1211212112"
  * ITF.interleavePair('01');
  */
-function interleavePair(pair) {
-  const black = WEIGHTS[Math.floor(pair / 10)];
-  const white = WEIGHTS[pair % 10];
+function interleavePair(pair: string) {
+  const numericPair = z.coerce.number().parse(pair)
+  const black = WEIGHTS[Math.floor(numericPair / 10)];
+  const white = WEIGHTS[numericPair % 10];
 
   let p = "";
 

@@ -1,19 +1,17 @@
 import type {
-  Template,
   TemplateInput,
-  TemplateSchema,
+  TemplateSchema
 } from "../factories/createPdf.js";
 
-import { createPdf } from "../factories/index.js";
 import fsSync from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs/yargs";
+import { createPdf } from "../factories/index.js";
 import { Boleto } from "../templates/Boleto/Boleto";
 
-// @ts-ignore
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 const pdfBaseDirectory = path.resolve(__dirname, "../../generated-pdfs");
@@ -59,8 +57,7 @@ const createTemplatePdfs = async <T extends TemplateSchema>(
   }
 };
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-const mapTemplates = (template: string): Template<any> => {
+const mapTemplates = (template: string) => {
   switch (template) {
     case "Boleto":
       return Boleto;
