@@ -5,7 +5,7 @@ export const defaultArgs: BoletoProps = {
   barcodeData: "23790.34404 20000.301430 99001.327503 9 97120000009332",
   scannerBarcode: "23790.34404 20000.301430 99001.327503 9 97120000009332",
   paymentPlace:
-    "Pagável preferencialmente na rede Bradesco ou Bradesco Expresso.",
+    "Pagável em qualquer banco, lóterica ou aplicativo bancário de sua preferência.",
   beneficiary: "UNICRED FLORIANÓPOLIS - CNPJ: 074.064.502/0001-12",
   beneficiaryAddress:
     "Rua Tenete Silveira, 315 - Centro - Florianópolis - SC  - CEP 88010-301",
