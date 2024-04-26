@@ -11,7 +11,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs/yargs";
-import { Boleto } from "../templates/Boleto";
+import { Boleto } from "../templates/Boleto/Boleto";
 
 // @ts-ignore
 const __dirname = fileURLToPath(new URL(".", import.meta.url));

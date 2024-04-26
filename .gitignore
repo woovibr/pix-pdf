@@ -4,3 +4,6 @@ node_modules/*
 # Ignore all files in the build/ directory
 
 /dist/*
+*storybook.log
+
+/storybook-static/*
