@@ -1,11 +1,22 @@
-How to develop new templates
+# Woovi Pix PDF
+## How to run
+- Install deps
+```sh
+pnpm install
+```
+- Run storybook
+```sh
+pnpm storybook
+```
+
+## How to develop new templates
 ```
 - Create a new file in src/templates
 - Create .stories.tsx file
 - Run the command `pnpm storybook`
 ```
 
-How to expose a new template
+## How to expose a new template
 ```
 - Export the new template in src/templates/index
 - Add the new template to templatesMap src/bin/generate-pdfs
@@ -14,9 +25,7 @@ How to expose a new template
 The pdf file will be available in the generated-pdfs folder
 ```
 
-
-
-references:
+## References
 - https://github.com/neves/boleto-barcode-svg/
 - https://github.com/zpao/qrcode.react
 - https://portal.febraban.org.br/pagina/3166/33/pt-br/layour-arrecadacao
