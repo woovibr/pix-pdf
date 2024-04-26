@@ -12,8 +12,8 @@ import type { BoletoProps } from "./input-schema";
 import { boletoBarcodeSvg } from "../../components/barcode";
 import { QRCode } from "../../components/qr-code-svg";
 
-const formatDate = (date: Date): string => {
-  return new Intl.DateTimeFormat("pt-BR").format(date);
+const formatDate = (date: string): string => {
+  return new Intl.DateTimeFormat("pt-BR").format(new Date(date));
 };
 
 const styles = StyleSheet.create({
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   page: {
-    // fontFamily: "Inter", TODO: Need fix import font on build for storybook and pdf generation
+    fontFamily: "Inter",
     padding: "32 20 52 20",
   },
   label: {
