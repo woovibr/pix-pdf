@@ -5,12 +5,19 @@ import { parseHtmlSvgToPdf } from "../utils/parseHtmlSvgToPdf";
 import { renderToString } from "react-dom/server";
 
 const createQRCodeSVG = (url: string) => {
-  //@ts-ignore - client and server have different exports
-  const Comp =typeof QR && QR.default.QRCodeSVG ? QR.default.QRCodeSVG : QR.QRCodeSVG;
+  const Comp =
+    //@ts-ignore - client and server have different exports
+    typeof QR && QR.default.QRCodeSVG ? QR.default.QRCodeSVG : QR.QRCodeSVG;
   return <Comp value={url} size={128} />;
 };
 
-export const QRCode = ({ qrcode, debug }: { qrcode: string, debug: boolean }) => {
+export const QRCode = ({
+  qrcode,
+  debug,
+}: {
+  qrcode: string;
+  debug: boolean;
+}) => {
   const paths = parseHtmlSvgToPdf(renderToString(createQRCodeSVG(qrcode)));
 
   return (

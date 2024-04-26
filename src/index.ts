@@ -1,1 +1,1 @@
-export {Boleto} from "./templates/Boleto/Boleto";
+export { Boleto } from "./templates/Boleto/Boleto";
