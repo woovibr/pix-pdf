@@ -4,9 +4,6 @@ import { PDFViewer } from "@react-pdf/renderer";
 import { Boleto } from "./Boleto";
 import type { BoletoProps } from "./input-schema";
 import { defaultArgs } from "./default-args";
-import { registerFonts } from "../../utils/registerFonts";
-
-registerFonts("./");
 
 const Setup = (args: BoletoProps) => {
   const Doc = Boleto.component;

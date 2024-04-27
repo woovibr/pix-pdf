@@ -11,6 +11,9 @@ import { WooviLogo } from "../../components/woovi-logo";
 import type { BoletoProps } from "./input-schema";
 import { boletoBarcodeSvg } from "../../components/barcode";
 import { QRCode } from "../../components/qr-code-svg";
+import { HStack, VStack } from "../../components/layout";
+import PixIcon from "../../components/pix-icon";
+import BarIcon from "../../components/bar-icon";
 
 const formatDate = (date: string): string => {
   return new Intl.DateTimeFormat("pt-BR").format(new Date(date));
@@ -37,11 +40,10 @@ const styles = StyleSheet.create({
     maxWidth: 344,
   },
   leftColumn: {
-    maxWidth: 399,
-    width: "100%",
     flexDirection: "column",
     gap: "4px",
     padding: "4px 6px",
+    width: 390,
   },
   rightColumn: {
     flexDirection: "column",
@@ -50,10 +52,14 @@ const styles = StyleSheet.create({
     padding: "4px 6px",
     height: "100%",
   },
+  rightColumnStacked: {
+    flexDirection: "column",
+    gap: "4px",
+    padding: "4px 6px",
+  },
   valueSmall: {
     fontSize: "10px",
-    width: 148,
-    textAlign: "right",
+    width: 152,
   },
   value: {
     fontSize: "10px",
@@ -64,9 +70,27 @@ const styles = StyleSheet.create({
 const mapLogo = {
   Woovi: <WooviLogo />,
 };
+
+const WrapText = ({ text }: { text?: string }) => (
+  <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+    {text?.match(/\w+|\W+/g)?.map((seg, i) => (
+      <Text
+        style={{
+          fontSize: 8,
+        }}
+        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+        key={i}
+      >
+        {seg}
+      </Text>
+    ))}
+  </View>
+);
+
 export const BoletoComponent = (args: BoletoProps) => {
   const SvgBarcode = boletoBarcodeSvg(args.barcodeData);
   const displayExpirationDay = formatDate(args.expirationDay);
+  const displayDocumentDate = formatDate(args.documentDate);
 
   return (
     <Document
@@ -77,11 +101,66 @@ export const BoletoComponent = (args: BoletoProps) => {
       title={"Boleto - Woovi"}
     >
       <Page style={styles.page}>
-        <View
+        <HStack justifyContent={"space-between"}>
+          <VStack
+            gap={6}
+            style={{
+              maxWidth: 400,
+            }}
+          >
+            <VStack
+              gap={6}
+              style={{
+                flex: 1,
+              }}
+            >
+              <HStack alignItems="center" gap={4}>
+                <PixIcon size={12} />
+                <Text style={styles.label}>Código pix</Text>
+              </HStack>
+              <WrapText text={args.qrCodeData} />
+            </VStack>
+
+            <VStack
+              gap={6}
+              style={{
+                flex: 1,
+              }}
+            >
+              <HStack alignItems="center" gap={4}>
+                <BarIcon width={12} height={12} />
+                <Text style={styles.label}>Linha digitável</Text>
+              </HStack>
+              <WrapText text={args.scannerBarcode} />
+              <View debug={args.debug} style={styles.barCode}>
+                {SvgBarcode}
+              </View>
+            </VStack>
+          </VStack>
+          <VStack
+            mb={20}
+            debug={args.debug}
+            alignItems="center"
+            gap={6}
+            style={{
+              maxWidth: 150,
+            }}
+          >
+            <HStack gap={4} alignItems={"center"} pl={20} pr={30}>
+              <PixIcon size={12} />
+              <Text style={styles.labelSmall}>
+                Pague o boleto com Pix usando o QRcode abaixo
+              </Text>
+            </HStack>
+            <HStack alignItems={"center"}>
+              <QRCode qrcode={args.qrCodeData} debug={args.debug} />
+            </HStack>
+          </VStack>
+        </HStack>
+        <HStack
+          gap={6}
           style={{
-            flexDirection: "row",
             alignItems: "baseline",
-            gap: 6,
           }}
         >
           <Link
@@ -113,12 +192,12 @@ export const BoletoComponent = (args: BoletoProps) => {
           >
             {args.scannerBarcode}
           </Text>
-        </View>
-        <View
+        </HStack>
+
+        <HStack
+          alignItems={"baseline"}
           style={{
             border: "1px solid black",
-            flexDirection: "row",
-            alignItems: "baseline",
           }}
         >
           <View style={{ ...styles.leftColumn }}>
@@ -127,32 +206,165 @@ export const BoletoComponent = (args: BoletoProps) => {
           </View>
           <View style={styles.rightColumn}>
             <Text style={styles.labelSmall}>Vencimento</Text>
-            <Text style={styles.valueSmall}>{displayExpirationDay}</Text>
+            <Text style={{ ...styles.valueSmall, fontWeight: "semibold" }}>
+              {displayExpirationDay}
+            </Text>
           </View>
-        </View>
+        </HStack>
 
-        <View
+        <HStack
+          alignItems={"baseline"}
           style={{
             border: "1px solid black",
             borderTop: "none",
-            flexDirection: "row",
-            alignItems: "baseline",
-            height: "108px",
           }}
         >
           <View style={{ ...styles.leftColumn }}>
-            <Text style={styles.labelSmall}>Instruções</Text>
-            <Text style={styles.value}>{args.instructions}</Text>
+            <Text style={styles.labelSmall}>Beneficiário</Text>
+            <Text style={styles.value}>{args.beneficiary}</Text>
           </View>
           <View style={styles.rightColumn}>
-            <Text style={styles.labelSmall}>(=) Valor Documento</Text>
+            <Text style={styles.labelSmall}>
+              Agência / Código do Beneficiário
+            </Text>
+            <Text style={styles.valueSmall}>
+              {args.agency} / {args.account}
+            </Text>
+          </View>
+        </HStack>
+
+        <HStack
+          alignItems={"baseline"}
+          style={{
+            border: "1px solid black",
+            borderTop: "none",
+          }}
+        >
+          <HStack width={390} style={{ height: "100%" }}>
+            <VStack
+              style={{
+                padding: "4px 6px",
+              }}
+            >
+              <Text style={styles.labelSmall}>Data do Documento</Text>
+              <Text style={styles.value}>{displayDocumentDate}</Text>
+            </VStack>
+
+            <VStack
+              style={{
+                padding: "4px 6px",
+                borderLeft: "1px solid black",
+              }}
+            >
+              <Text style={styles.labelSmall}>N° do Documento</Text>
+              <Text style={styles.value}>{args.documentNumber}</Text>
+            </VStack>
+          </HStack>
+
+          <View style={styles.rightColumn}>
+            <Text style={styles.labelSmall}>Nosso Número</Text>
+            <Text style={styles.valueSmall}>{args.formattedOurNumber}</Text>
+          </View>
+        </HStack>
+
+        <HStack
+          alignItems={"baseline"}
+          style={{
+            border: "1px solid black",
+            borderTop: "none",
+          }}
+        >
+          <View style={{ ...styles.leftColumn }}>
+            <Text style={styles.labelSmall}>Espécie</Text>
+            <Text style={styles.value}>{args.currencyType}</Text>
+          </View>
+          <View style={styles.rightColumn}>
+            <Text style={styles.labelSmall}>Valor do Documento</Text>
             <Text style={styles.valueSmall}>{args.formattedValue}</Text>
           </View>
-        </View>
+        </HStack>
 
-        <View style={{ marginTop: "10px" }} debug={args.debug}>
-          <QRCode qrcode={args.qrCodeData} debug={args.debug} />
-        </View>
+        <HStack
+          alignItems={"baseline"}
+          style={{
+            border: "1px solid black",
+            borderTop: "none",
+            minHeight: "108px",
+          }}
+        >
+          <View style={{ ...styles.leftColumn }}>
+            <Text style={styles.labelSmall}>
+              Instruções (Texto de responsabilidade do beneficiário)
+            </Text>
+            <Text style={styles.value}>{args.instructions}</Text>
+          </View>
+
+          <VStack
+            style={{
+              borderLeft: "1px solid black",
+              height: "100%",
+            }}
+          >
+            <View style={styles.rightColumnStacked}>
+              <Text style={styles.labelSmall}>(-) Desconto / Abatimentos</Text>
+              <Text style={styles.valueSmall}>{args.discountValue}</Text>
+            </View>
+
+            <View
+              style={{
+                ...styles.rightColumnStacked,
+                borderTop: "1px solid black",
+              }}
+            >
+              <Text style={styles.labelSmall}>(-) Outras deduções</Text>
+              <Text style={styles.valueSmall}>{args.otherDiscounts}</Text>
+            </View>
+
+            <View
+              style={{
+                ...styles.rightColumnStacked,
+                borderTop: "1px solid black",
+              }}
+            >
+              <Text style={styles.labelSmall}>(+) Mora / Multa</Text>
+              <Text style={styles.valueSmall}>{args.feeValue}</Text>
+            </View>
+
+            <View
+              style={{
+                ...styles.rightColumnStacked,
+                borderTop: "1px solid black",
+              }}
+            >
+              <Text style={styles.labelSmall}>(+) Outros acréscimos</Text>
+              <Text style={styles.valueSmall}>{args.otherFees}</Text>
+            </View>
+
+            <View
+              style={{
+                ...styles.rightColumnStacked,
+                borderTop: "1px solid black",
+              }}
+            >
+              <Text style={styles.labelSmall}>(=) Valor cobrado</Text>
+              <Text style={styles.valueSmall}>{args.amount}</Text>
+            </View>
+          </VStack>
+        </HStack>
+
+        <VStack
+          gap={6}
+          style={{
+            border: "1px solid black",
+            borderTop: "none",
+            padding: "4px 6px",
+          }}
+        >
+          <Text style={styles.labelSmall}>Pagador</Text>
+          <Text style={styles.value}>
+            {args.payer.name}, CPF: {args.payer.registerNumber}
+          </Text>
+        </VStack>
 
         <View debug={args.debug} style={styles.barCode}>
           {SvgBarcode}
