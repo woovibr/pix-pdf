@@ -1,7 +1,4 @@
-import type {
-  TemplateInput,
-  TemplateSchema
-} from "../factories/createPdf.js";
+import type { TemplateInput, TemplateSchema } from "../factories/createPdf.js";
 
 import fsSync from "node:fs";
 import fs from "node:fs/promises";
@@ -68,12 +65,23 @@ const mapTemplates = (template: string) => {
 
 (async () => {
   if (argv.template) {
+    const templateStart = Date.now();
     await createTemplatePdfs(mapTemplates(argv.template));
+    const templateEnd = Date.now();
+    console.log(
+      `${argv.template} generated in ${templateEnd - templateStart}ms`
+    );
   } else {
     // generate all pdfs
+    const startTime = Date.now();
     for (const template of Object.keys(templatesMap)) {
       console.log(`Generating ${template}...`);
+      const templateStart = Date.now();
       await createTemplatePdfs(mapTemplates(template));
+      const templateEnd = Date.now();
+      console.log(`${template} generated in ${templateEnd - templateStart}ms`);
     }
+    const endTime = Date.now();
+    console.log(`Total generation time: ${endTime - startTime}ms`);
   }
 })();
