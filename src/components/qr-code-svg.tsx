@@ -21,7 +21,7 @@ export const QRCode = ({
   const paths = parseHtmlSvgToPdf(renderToString(createQRCodeSVG(qrcode)));
 
   return (
-    <Svg height="100" width="100" viewBox="0 0 50 50" debug={debug}>
+    <Svg height="100%" width="100%" viewBox="0 0 50 50" debug={debug}>
       {paths.map((path, index) => (
         <Path key={path} fill={index === 0 ? "white" : "black"} d={path} />
       ))}
