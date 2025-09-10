@@ -1,14 +1,11 @@
 import React from "react";
-import * as QR from "qrcode.react";
+import { QRCodeSVG } from "qrcode.react";
 import { Path, Svg } from "@react-pdf/renderer";
 import { parseHtmlSvgToPdf } from "../utils/parseHtmlSvgToPdf";
 import { renderToString } from "react-dom/server";
 
 const createQRCodeSVG = (url: string) => {
-  const Comp =
-    //@ts-ignore - client and server have different exports
-    typeof QR && QR.default.QRCodeSVG ? QR.default.QRCodeSVG : QR.QRCodeSVG;
-  return <Comp value={url} size={128} />;
+  return <QRCodeSVG value={url} size={128} />;
 };
 
 export const QRCode = ({
